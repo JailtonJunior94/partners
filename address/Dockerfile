@@ -19,6 +19,6 @@ COPY --from=builder /app/address .
 
 EXPOSE 80
 EXPOSE 433
-EXPOSE 9000
+EXPOSE 5000
 
 CMD [ "/app/address" ]
