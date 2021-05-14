@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug (Address)",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/address/address.go",
+            "env": {
+                "ENVIRONMENT": "Development",
+                "PORT": 9000
+            },
+            "args": []
+        },
+    ]
+}

@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
+	"os"
 
 	"github.com/jailtonjunior94/go-challenge/address/pb"
 	"github.com/jailtonjunior94/go-challenge/address/services"
@@ -11,9 +13,11 @@ import (
 )
 
 func main() {
-	lis, err := net.Listen("tcp", ":9000")
+	port := os.Getenv("PORT")
+
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", port))
 	if err != nil {
-		log.Fatalf("Failed to listen on port 9000: %v", err)
+		log.Fatalf("Failed to serve gRPC server over %v: %v", port, err)
 	}
 
 	grpcServer := grpc.NewServer()
@@ -21,9 +25,9 @@ func main() {
 	cepService := services.NewCepGrpcServer()
 	pb.RegisterCepServiceServer(grpcServer, cepService)
 
-	log.Println("🚀 gRPC server is running on http://localhost:9000")
+	log.Printf("🚀 gRPC server is running on http://localhost:%v", port)
 
 	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("Failed to serve gRPC server over 9000: %v", err)
+		log.Fatalf("Failed to serve gRPC server over %v: %v", port, err)
 	}
 }

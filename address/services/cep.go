@@ -10,12 +10,12 @@ type CepGrpcServer struct {
 	pb.UnimplementedCepServiceServer
 }
 
+func NewCepGrpcServer() *CepGrpcServer {
+	return &CepGrpcServer{}
+}
+
 func (c *CepGrpcServer) GetCep(ctx context.Context, in *pb.CepRequest) (*pb.CepResponse, error) {
 	return &pb.CepResponse{
 		Cep: "06503015",
 	}, nil
-}
-
-func NewCepGrpcServer() *CepGrpcServer {
-	return &CepGrpcServer{}
 }
