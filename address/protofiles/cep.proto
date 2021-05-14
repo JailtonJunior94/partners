@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package github.com.jailtonjunior94.go.challenge;
+
+option go_package = "/protofiles;pb";
+
+message CepRequest {
+  string cep = 1;
+}
+
+message CepResponse {
+  string cep = 1;
+  string logradouro = 2;
+  string complemento = 3;
+  string bairro = 4;
+  string localidade = 5;
+  string uf = 6;
+  string ibge = 7;
+  string gia = 8;
+  string ddd = 9;
+  string siafi = 10;
+}
+
+service CepService {
+  rpc GetCep(CepRequest) returns (CepResponse) {};
+}
