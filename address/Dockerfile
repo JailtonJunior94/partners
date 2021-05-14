@@ -18,7 +18,7 @@ ENV TZ=America/Sao_Paulo
 COPY --from=builder /app/address .
 
 EXPOSE 80
-EXPOSE 433
+EXPOSE 443
 EXPOSE 5000
 
 CMD [ "/app/address" ]
