@@ -10,6 +10,7 @@ import (
 	"github.com/jailtonjunior94/go-challenge/address/services"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -21,6 +22,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
+	reflection.Register(grpcServer)
 
 	cepService := services.NewCepGrpcServer()
 	pb.RegisterCepServiceServer(grpcServer, cepService)
