@@ -1,0 +1,9 @@
+{
+    "viaCep": {
+        "baseURL": ""
+    },
+    "geocode": {
+        "baseURL": "",
+        "key": ""
+    }
+}
