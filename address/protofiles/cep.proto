@@ -10,15 +10,11 @@ message CepRequest {
 
 message CepResponse {
   string cep = 1;
-  string logradouro = 2;
-  string complemento = 3;
-  string bairro = 4;
-  string localidade = 5;
+  string street = 2;
+  string complement = 3;
+  string neighborhood = 4;
+  string city = 5;
   string uf = 6;
-  string ibge = 7;
-  string gia = 8;
-  string ddd = 9;
-  string siafi = 10;
 }
 
 service CepService {

@@ -6,6 +6,8 @@ import (
 	"net"
 	"os"
 
+	"github.com/jailtonjunior94/go-challenge/address/enviroments"
+	"github.com/jailtonjunior94/go-challenge/address/facades"
 	"github.com/jailtonjunior94/go-challenge/address/pb"
 	"github.com/jailtonjunior94/go-challenge/address/services"
 
@@ -15,6 +17,7 @@ import (
 
 func main() {
 	port := os.Getenv("PORT")
+	enviroments.NewSetupEnvironments()
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", port))
 	if err != nil {
@@ -24,7 +27,9 @@ func main() {
 	grpcServer := grpc.NewServer()
 	reflection.Register(grpcServer)
 
-	cepService := services.NewCepGrpcServer()
+	viaCepFacade := facades.NewViaCepFacade()
+	cepService := services.NewCepGrpcServer(viaCepFacade)
+
 	pb.RegisterCepServiceServer(grpcServer, cepService)
 
 	log.Printf("🚀 gRPC server is running on http://localhost:%v", port)

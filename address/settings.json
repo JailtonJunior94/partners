@@ -1,9 +1,9 @@
 {
     "viaCep": {
-        "baseURL": ""
+        "baseURL": "https://viacep.com.br/ws/%s/json/"
     },
     "geocode": {
-        "baseURL": "",
-        "key": ""
+        "baseURL": "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s",
+        "key": "AIzaSyBlMbCohnbuhT3hEAvocpcS_A5q697gOi4"
     }
 }
