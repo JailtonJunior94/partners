@@ -28,7 +28,8 @@ func main() {
 	reflection.Register(grpcServer)
 
 	viaCepFacade := facades.NewViaCepFacade()
-	cepService := services.NewCepGrpcServer(viaCepFacade)
+	geoCodeFacade := facades.NewGeocodeFacade()
+	cepService := services.NewCepGrpcServer(viaCepFacade, geoCodeFacade)
 
 	pb.RegisterCepServiceServer(grpcServer, cepService)
 

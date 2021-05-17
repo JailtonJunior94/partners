@@ -8,6 +8,11 @@ message CepRequest {
   string cep = 1;
 }
 
+message LocationResponse {
+  float lat = 1;
+  float lng = 2;
+}
+
 message CepResponse {
   string cep = 1;
   string street = 2;
@@ -15,6 +20,7 @@ message CepResponse {
   string neighborhood = 4;
   string city = 5;
   string uf = 6;
+  LocationResponse location = 7;
 }
 
 service CepService {
