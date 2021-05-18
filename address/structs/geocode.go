@@ -1,4 +1,4 @@
-package dtos
+package structs
 
 type Geocode struct {
 	Results []struct {

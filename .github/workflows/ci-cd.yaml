@@ -14,6 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ github.workspace }}/address/settings.json
+        env:
+          geocode.key: ${{ secrets.GOOGLE_KEY }}
+
       - name: Docker Login
         uses: docker/login-action@v1.9.0
         with:

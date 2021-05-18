@@ -1,4 +1,4 @@
-package dtos
+package structs
 
 type ViaCep struct {
 	Cep          string `json:"cep"`
