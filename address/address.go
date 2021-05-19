@@ -15,8 +15,13 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+const defaultPort = "9000"
+
 func main() {
 	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
+	}
 	enviroments.NewSetupEnvironments()
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", port))

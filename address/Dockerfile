@@ -19,6 +19,6 @@ COPY --from=builder /app/address .
 COPY ["address/settings.json","."]
 
 EXPOSE 80
-EXPOSE 5000
+EXPOSE 9000
 
 CMD [ "/app/address" ]

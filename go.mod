@@ -6,6 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.13.0
 	github.com/spf13/viper v1.7.1
 	github.com/vektah/gqlparser/v2 v2.1.0
+	go.mongodb.org/mongo-driver v1.5.2
 	google.golang.org/grpc v1.37.1
 	google.golang.org/protobuf v1.26.0
 )
