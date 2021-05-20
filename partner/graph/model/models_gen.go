@@ -2,13 +2,27 @@
 
 package model
 
+type Address struct {
+	Cep          string `json:"cep"`
+	Street       string `json:"street"`
+	Neighborhood string `json:"neighborhood"`
+	City         string `json:"city"`
+	Uf           string `json:"uf"`
+	Type         string `json:"type"`
+	Coordinates  []int  `json:"coordinates"`
+}
+
 type NewPartner struct {
-	Name string `json:"name"`
-	Cep  string `json:"cep"`
+	TradingName string `json:"tradingName"`
+	OwnerName   string `json:"ownerName"`
+	Document    string `json:"document"`
+	Cep         string `json:"cep"`
 }
 
 type Partner struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-	Cep  string `json:"cep"`
+	ID          string   `json:"id"`
+	TradingName string   `json:"tradingName"`
+	OwnerName   string   `json:"ownerName"`
+	Document    string   `json:"document"`
+	Address     *Address `json:"address"`
 }

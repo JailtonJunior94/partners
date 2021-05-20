@@ -5,6 +5,7 @@ package graph
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jailtonjunior94/go-challenge/partner/domain/entities"
 	"github.com/jailtonjunior94/go-challenge/partner/graph/generated"
@@ -12,14 +13,20 @@ import (
 )
 
 func (r *mutationResolver) CreatePartner(ctx context.Context, input model.NewPartner) (*model.Partner, error) {
-	partner, err := r.PartnerRepository.Add(entities.NewPartner(input.Name))
+	address := entities.NewAddress("06503-015", "Rua José Pontes Zé Buraco", "Parque Fernão Dias", "Santana de Parnaíba", "SP")
+	address.AddCoordinates(-23.455110549926758, -46.92776107788086)
+
+	newPartner := entities.NewPartner(input.TradingName, input.OwnerName, input.Document)
+	newPartner.AddAddress(address)
+
+	partner, err := r.PartnerRepository.Add(newPartner)
 	if err != nil {
 		return nil, err
 	}
 
 	return &model.Partner{
-		ID:   partner.ID.Hex(),
-		Name: partner.Name,
+		ID:          partner.ID.Hex(),
+		TradingName: partner.TradingName,
 	}, nil
 }
 
@@ -36,14 +43,18 @@ func (r *queryResolver) Partners(ctx context.Context) ([]*model.Partner, error) 
 	var response []*model.Partner
 	for _, p := range partners {
 		res := &model.Partner{
-			ID:   p.ID.Hex(),
-			Name: p.Name,
-			Cep:  "",
+			ID:          p.ID.Hex(),
+			TradingName: p.TradingName,
+			Address:     &model.Address{},
 		}
 		response = append(response, res)
 	}
 
 	return response, nil
+}
+
+func (r *queryResolver) Partner(ctx context.Context, id string) (*model.Partner, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 // Mutation returns generated.MutationResolver implementation.

@@ -4,16 +4,31 @@
 
 type Partner {
   id: ID!
-  name: String!
+  tradingName: String!
+  ownerName: String!
+  document: String!
+  address: Address!
+}
+
+type Address {
   cep: String!
+  street: String!
+  neighborhood: String!
+  city: String!
+  uf: String!
+  type: String!
+  coordinates: [Int!]!
 }
 
 type Query {
-  partners: [Partner!]!
+  partners: [Partner]
+  partner(id: ID!): Partner
 }
 
 input NewPartner {
-  name: String!
+  tradingName: String!
+  ownerName: String!
+  document: String!
   cep: String!
 }
 
