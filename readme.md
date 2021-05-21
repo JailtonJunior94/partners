@@ -11,6 +11,7 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode.
 7. [Github Actions](https://docs.github.com/pt/actions)
 8. [Docker](https://www.docker.com/)
 9. [Docker Hub](https://hub.docker.com/)
+10. [Terraform](https://www.terraform.io/)
 
 ### Desenho da Solução
 <p align="center">
