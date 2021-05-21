@@ -9,8 +9,8 @@ resource "azurerm_container_group" "api_partner_aci" {
   container {
     name   = "api-partner"
     image  = "jailtonjunior/partner-api:latest"
-    cpu    = "0.5"
-    memory = "0.5"
+    cpu    = 1
+    memory = 0.5
     ports {
       port     = 80
       protocol = "TCP"
@@ -20,7 +20,8 @@ resource "azurerm_container_group" "api_partner_aci" {
       protocol = "TCP"
     }
     environment_variables = tomap({
-      "PORT" = "8000"
+      "PORT" = "8000",
+      "ENVIRONMENT" : "Production"
     })
   }
 }

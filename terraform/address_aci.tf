@@ -9,8 +9,8 @@ resource "azurerm_container_group" "api_address_aci" {
   container {
     name   = "api-address"
     image  = "jailtonjunior/address-api:latest"
-    cpu    = "0.5"
-    memory = "0.5"
+    cpu    = 1
+    memory = 0.5
     ports {
       port     = 80
       protocol = "TCP"

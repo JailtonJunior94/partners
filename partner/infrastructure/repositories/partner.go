@@ -5,6 +5,7 @@ import (
 
 	"github.com/jailtonjunior94/go-challenge/partner/domain/entities"
 	"github.com/jailtonjunior94/go-challenge/partner/infrastructure/database"
+	"github.com/jailtonjunior94/go-challenge/partner/infrastructure/environments"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -23,7 +24,7 @@ func NewPartnerRepository(client database.IMongoConnection) IPartnerRepository {
 }
 
 func (r *PartnerRepository) Add(p *entities.Partner) (partner *entities.Partner, err error) {
-	collection, err := r.Client.GetCollection("GoChallengeDB", "Partners")
+	collection, err := r.Client.GetCollection(environments.Database, environments.Collection)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +38,7 @@ func (r *PartnerRepository) Add(p *entities.Partner) (partner *entities.Partner,
 }
 
 func (r *PartnerRepository) Get() (partners []*entities.Partner, err error) {
-	collection, err := r.Client.GetCollection("GoChallengeDB", "Partners")
+	collection, err := r.Client.GetCollection(environments.Database, environments.Collection)
 	if err != nil {
 		return nil, err
 	}

@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Variable Substitution
+      - name: Variable Substitution (Address API)
         uses: microsoft/variable-substitution@v1
         with:
           files: ${{ github.workspace }}/address/settings.json
@@ -37,6 +37,13 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:latest
             ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{github.run_number}}
+
+      - name: Variable Substitution (Partner API)
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ github.workspace }}/partner/settings.Production.json
+        env:
+          mongo.connectionString: ${{ secrets.COSMOS_CONNECTION }}
 
       - name: Build and push (Partner API)
         uses: docker/build-push-action@v2.4.0

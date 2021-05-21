@@ -7,6 +7,7 @@ import (
 
 	"github.com/jailtonjunior94/go-challenge/partner/graph"
 	"github.com/jailtonjunior94/go-challenge/partner/graph/generated"
+	"github.com/jailtonjunior94/go-challenge/partner/infrastructure/environments"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -19,6 +20,7 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
+	environments.NewSetupEnvironments()
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: graph.NewResolver()}))
 

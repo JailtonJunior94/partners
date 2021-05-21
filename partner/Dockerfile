@@ -16,6 +16,9 @@ RUN apk --no-cache add tzdata
 ENV TZ=America/Sao_Paulo
 
 COPY --from=builder /app/server .
+COPY ["partner/settings.Development.json","."]
+COPY ["partner/settings.Production.json","."]
+COPY ["partner/settings.Staging.json","."]
 
 EXPOSE 80
 EXPOSE 8000
