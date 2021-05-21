@@ -1,0 +1,28 @@
+@startuml Go-Challenge
+
+!define AzurePuml https://raw.githubusercontent.com/RicardoNiepel/Azure-PlantUML/master/dist
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!includeurl AzurePuml/AzureCommon.puml
+!includeurl AzurePuml/Databases/AzureCosmosDb.puml
+!includeurl AzurePuml/Containers/AzureContainerInstance.puml
+
+left to right direction
+
+!define _externalcolor #CCCCCC
+
+System_Boundary(fluxo, "Go Challenge") {
+    AzureContainerInstance(PartnerAPI, "Partners", "api-partner")
+    AzureContainerInstance(AddressAPI, "Address", "api-address")
+    AzureCosmosDb(GoChallengeDB, "GoChallengeDB", "partners")
+
+    Container(ViaCep, "Via Cep API", "viacep-api", "Provê informações de CEP", "ViaCEP")
+    Container(GoogleGeoCode, "Google GeoCode", "google-api", "Provê informações de Geocode", "GeoCode")
+
+    Rel(AddressAPI, ViaCep, "2º Obtém endereço por CEP", "http/json")
+    Rel_L(AddressAPI, GoogleGeoCode, "3º Obtém endereço por CEP", "http/json")
+
+    Rel(PartnerAPI, AddressAPI, "1º Obtém endereço por CEP", "gRPC")
+    Rel_L(PartnerAPI, GoChallengeDB, "4º Cadastra / Lista parceiros", "go.mongodb.org/mongo-driver")
+}
+
+@enduml

@@ -23,7 +23,7 @@ func NewPartnerRepository(client database.IMongoConnection) IPartnerRepository {
 }
 
 func (r *PartnerRepository) Add(p *entities.Partner) (partner *entities.Partner, err error) {
-	collection, err := r.Client.GetCollection("GoChalleng", "Partners")
+	collection, err := r.Client.GetCollection("GoChallengeDB", "Partners")
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func (r *PartnerRepository) Add(p *entities.Partner) (partner *entities.Partner,
 }
 
 func (r *PartnerRepository) Get() (partners []*entities.Partner, err error) {
-	collection, err := r.Client.GetCollection("GoChalleng", "Partners")
+	collection, err := r.Client.GetCollection("GoChallengeDB", "Partners")
 	if err != nil {
 		return nil, err
 	}
