@@ -3,13 +3,18 @@
 package model
 
 type Address struct {
-	Cep          string `json:"cep"`
-	Street       string `json:"street"`
-	Neighborhood string `json:"neighborhood"`
-	City         string `json:"city"`
-	Uf           string `json:"uf"`
-	Type         string `json:"type"`
-	Coordinates  []int  `json:"coordinates"`
+	Cep          string    `json:"cep"`
+	Street       string    `json:"street"`
+	Neighborhood string    `json:"neighborhood"`
+	City         string    `json:"city"`
+	Uf           string    `json:"uf"`
+	Location     *Location `json:"location"`
+}
+
+type Location struct {
+	Type string  `json:"type"`
+	Lat  float64 `json:"lat"`
+	Lng  float64 `json:"lng"`
 }
 
 type NewPartner struct {

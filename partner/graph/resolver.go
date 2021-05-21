@@ -1,6 +1,7 @@
 package graph
 
 import (
+	"github.com/jailtonjunior94/go-challenge/partner/facades"
 	"github.com/jailtonjunior94/go-challenge/partner/infrastructure/database"
 	"github.com/jailtonjunior94/go-challenge/partner/infrastructure/repositories"
 )
@@ -12,6 +13,7 @@ import (
 type Resolver struct {
 	MongoConnection   database.IMongoConnection
 	PartnerRepository repositories.IPartnerRepository
+	AddressFacade     facades.IAddressFacade
 }
 
 func NewResolver() *Resolver {
@@ -19,5 +21,6 @@ func NewResolver() *Resolver {
 	return &Resolver{
 		MongoConnection:   connection,
 		PartnerRepository: repositories.NewPartnerRepository(connection),
+		AddressFacade:     facades.NewAddressFacade(),
 	}
 }

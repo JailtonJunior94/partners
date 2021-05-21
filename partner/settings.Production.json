@@ -3,5 +3,8 @@
         "connectionString": "",
         "database": "GoChallengeDB",
         "collection": "Partners"
+    },
+    "address": {
+        "baseURL": "api-address.eastus.azurecontainer.io:9000"
     }
 }

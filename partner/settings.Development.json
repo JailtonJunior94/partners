@@ -3,5 +3,8 @@
         "connectionString": "mongodb://localhost:27017",
         "database": "GoChallengeDB",
         "collection": "Partners"
+    },
+    "address": {
+        "baseURL": "localhost:9000"
     }
 }

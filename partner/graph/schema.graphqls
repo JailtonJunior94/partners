@@ -16,8 +16,13 @@ type Address {
   neighborhood: String!
   city: String!
   uf: String!
+  location: Location!
+}
+
+type Location {
   type: String!
-  coordinates: [Int!]!
+  lat: Float!
+  lng: Float!
 }
 
 type Query {

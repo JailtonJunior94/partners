@@ -45,11 +45,16 @@ type ComplexityRoot struct {
 	Address struct {
 		Cep          func(childComplexity int) int
 		City         func(childComplexity int) int
-		Coordinates  func(childComplexity int) int
+		Location     func(childComplexity int) int
 		Neighborhood func(childComplexity int) int
 		Street       func(childComplexity int) int
-		Type         func(childComplexity int) int
 		Uf           func(childComplexity int) int
+	}
+
+	Location struct {
+		Lat  func(childComplexity int) int
+		Lng  func(childComplexity int) int
+		Type func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -107,12 +112,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Address.City(childComplexity), true
 
-	case "Address.coordinates":
-		if e.complexity.Address.Coordinates == nil {
+	case "Address.location":
+		if e.complexity.Address.Location == nil {
 			break
 		}
 
-		return e.complexity.Address.Coordinates(childComplexity), true
+		return e.complexity.Address.Location(childComplexity), true
 
 	case "Address.neighborhood":
 		if e.complexity.Address.Neighborhood == nil {
@@ -128,19 +133,33 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Address.Street(childComplexity), true
 
-	case "Address.type":
-		if e.complexity.Address.Type == nil {
-			break
-		}
-
-		return e.complexity.Address.Type(childComplexity), true
-
 	case "Address.uf":
 		if e.complexity.Address.Uf == nil {
 			break
 		}
 
 		return e.complexity.Address.Uf(childComplexity), true
+
+	case "Location.lat":
+		if e.complexity.Location.Lat == nil {
+			break
+		}
+
+		return e.complexity.Location.Lat(childComplexity), true
+
+	case "Location.lng":
+		if e.complexity.Location.Lng == nil {
+			break
+		}
+
+		return e.complexity.Location.Lng(childComplexity), true
+
+	case "Location.type":
+		if e.complexity.Location.Type == nil {
+			break
+		}
+
+		return e.complexity.Location.Type(childComplexity), true
 
 	case "Mutation.createPartner":
 		if e.complexity.Mutation.CreatePartner == nil {
@@ -290,8 +309,13 @@ type Address {
   neighborhood: String!
   city: String!
   uf: String!
+  location: Location!
+}
+
+type Location {
   type: String!
-  coordinates: [Int!]!
+  lat: Float!
+  lng: Float!
 }
 
 type Query {
@@ -574,7 +598,7 @@ func (ec *executionContext) _Address_uf(ctx context.Context, field graphql.Colle
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Address_type(ctx context.Context, field graphql.CollectedField, obj *model.Address) (ret graphql.Marshaler) {
+func (ec *executionContext) _Address_location(ctx context.Context, field graphql.CollectedField, obj *model.Address) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -583,6 +607,41 @@ func (ec *executionContext) _Address_type(ctx context.Context, field graphql.Col
 	}()
 	fc := &graphql.FieldContext{
 		Object:     "Address",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Location, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Location)
+	fc.Result = res
+	return ec.marshalNLocation2ᚖgithubᚗcomᚋjailtonjunior94ᚋgoᚑchallengeᚋpartnerᚋgraphᚋmodelᚐLocation(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Location_type(ctx context.Context, field graphql.CollectedField, obj *model.Location) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Location",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -609,7 +668,7 @@ func (ec *executionContext) _Address_type(ctx context.Context, field graphql.Col
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Address_coordinates(ctx context.Context, field graphql.CollectedField, obj *model.Address) (ret graphql.Marshaler) {
+func (ec *executionContext) _Location_lat(ctx context.Context, field graphql.CollectedField, obj *model.Location) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -617,7 +676,7 @@ func (ec *executionContext) _Address_coordinates(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "Address",
+		Object:     "Location",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -627,7 +686,7 @@ func (ec *executionContext) _Address_coordinates(ctx context.Context, field grap
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Coordinates, nil
+		return obj.Lat, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -639,9 +698,44 @@ func (ec *executionContext) _Address_coordinates(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]int)
+	res := resTmp.(float64)
 	fc.Result = res
-	return ec.marshalNInt2ᚕintᚄ(ctx, field.Selections, res)
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Location_lng(ctx context.Context, field graphql.CollectedField, obj *model.Location) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Location",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Lng, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_createPartner(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2178,13 +2272,45 @@ func (ec *executionContext) _Address(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "type":
-			out.Values[i] = ec._Address_type(ctx, field, obj)
+		case "location":
+			out.Values[i] = ec._Address_location(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "coordinates":
-			out.Values[i] = ec._Address_coordinates(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var locationImplementors = []string{"Location"}
+
+func (ec *executionContext) _Location(ctx context.Context, sel ast.SelectionSet, obj *model.Location) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, locationImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Location")
+		case "type":
+			out.Values[i] = ec._Location_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "lat":
+			out.Values[i] = ec._Location_lat(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "lng":
+			out.Values[i] = ec._Location_lng(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -2599,6 +2725,21 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
+func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
+	res, err := graphql.UnmarshalFloat(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.SelectionSet, v float64) graphql.Marshaler {
+	res := graphql.MarshalFloat(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+	}
+	return res
+}
+
 func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface{}) (string, error) {
 	res, err := graphql.UnmarshalID(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -2614,49 +2755,14 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
-	res, err := graphql.UnmarshalInt(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
-	res := graphql.MarshalInt(v)
-	if res == graphql.Null {
+func (ec *executionContext) marshalNLocation2ᚖgithubᚗcomᚋjailtonjunior94ᚋgoᚑchallengeᚋpartnerᚋgraphᚋmodelᚐLocation(ctx context.Context, sel ast.SelectionSet, v *model.Location) graphql.Marshaler {
+	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
 		}
+		return graphql.Null
 	}
-	return res
-}
-
-func (ec *executionContext) unmarshalNInt2ᚕintᚄ(ctx context.Context, v interface{}) ([]int, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]int, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNInt2int(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) marshalNInt2ᚕintᚄ(ctx context.Context, sel ast.SelectionSet, v []int) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	for i := range v {
-		ret[i] = ec.marshalNInt2int(ctx, sel, v[i])
-	}
-
-	return ret
+	return ec._Location(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNNewPartner2githubᚗcomᚋjailtonjunior94ᚋgoᚑchallengeᚋpartnerᚋgraphᚋmodelᚐNewPartner(ctx context.Context, v interface{}) (model.NewPartner, error) {

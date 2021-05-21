@@ -12,6 +12,7 @@ var (
 	ConnectionString = ""
 	Database         = ""
 	Collection       = ""
+	AddressBaseURL   = ""
 )
 
 func NewSetupEnvironments() {
@@ -29,4 +30,5 @@ func NewSetupEnvironments() {
 	ConnectionString = viper.GetString("mongo.connectionString")
 	Database = viper.GetString("mongo.database")
 	Collection = viper.GetString("mongo.collection")
+	AddressBaseURL = viper.GetString("address.baseURL")
 }

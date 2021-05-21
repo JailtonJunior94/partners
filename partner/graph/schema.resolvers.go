@@ -8,13 +8,19 @@ import (
 	"fmt"
 
 	"github.com/jailtonjunior94/go-challenge/partner/domain/entities"
+	"github.com/jailtonjunior94/go-challenge/partner/domain/mappings"
 	"github.com/jailtonjunior94/go-challenge/partner/graph/generated"
 	"github.com/jailtonjunior94/go-challenge/partner/graph/model"
 )
 
 func (r *mutationResolver) CreatePartner(ctx context.Context, input model.NewPartner) (*model.Partner, error) {
-	address := entities.NewAddress("06503-015", "Rua José Pontes Zé Buraco", "Parque Fernão Dias", "Santana de Parnaíba", "SP")
-	address.AddCoordinates(-23.455110549926758, -46.92776107788086)
+	res, err := r.AddressFacade.Address(input.Cep)
+	if err != nil {
+		return nil, err
+	}
+
+	address := entities.NewAddress(res.Cep, res.Street, res.Neighborhood, res.City, res.Uf)
+	address.AddLocation(float64(res.Location.Lat), float64(res.Location.Lng))
 
 	newPartner := entities.NewPartner(input.TradingName, input.OwnerName, input.Document)
 	newPartner.AddAddress(address)
@@ -24,10 +30,8 @@ func (r *mutationResolver) CreatePartner(ctx context.Context, input model.NewPar
 		return nil, err
 	}
 
-	return &model.Partner{
-		ID:          partner.ID.Hex(),
-		TradingName: partner.TradingName,
-	}, nil
+	var response = mappings.ToPartnerResponse(partner)
+	return response, nil
 }
 
 func (r *queryResolver) Partners(ctx context.Context) ([]*model.Partner, error) {
@@ -40,16 +44,7 @@ func (r *queryResolver) Partners(ctx context.Context) ([]*model.Partner, error) 
 		return make([]*model.Partner, 0), nil
 	}
 
-	var response []*model.Partner
-	for _, p := range partners {
-		res := &model.Partner{
-			ID:          p.ID.Hex(),
-			TradingName: p.TradingName,
-			Address:     &model.Address{},
-		}
-		response = append(response, res)
-	}
-
+	var response = mappings.ToManyPartnerResponse(partners)
 	return response, nil
 }
 

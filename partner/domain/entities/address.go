@@ -1,13 +1,19 @@
 package entities
 
 type Address struct {
-	Cep          string    `bson:"cep"`
-	Street       string    `bson:"street"`
-	Neighborhood string    `bson:"neighborhood"`
-	City         string    `bson:"city"`
-	Uf           string    `bson:"uf"`
-	Type         string    `bson:"type"`
-	Coordinates  []float64 `bson:"coordinates"`
+	Cep          string `bson:"cep"`
+	Street       string `bson:"street"`
+	Neighborhood string `bson:"neighborhood"`
+	City         string `bson:"city"`
+	Uf           string `bson:"uf"`
+
+	Location *Location `bson:"location"`
+}
+
+type Location struct {
+	Type string  `bson:"type"`
+	Lat  float64 `bson:"lat"`
+	Lng  float64 `bson:"lng"`
 }
 
 func NewAddress(cep, street, neighborhood, city, uf string) *Address {
@@ -20,7 +26,12 @@ func NewAddress(cep, street, neighborhood, city, uf string) *Address {
 	}
 }
 
-func (a *Address) AddCoordinates(lat, lng float64) {
-	a.Type = "Point"
-	a.Coordinates = []float64{lat, lng}
+func (a *Address) AddLocation(lat, lng float64) {
+	location := &Location{
+		Type: "Point",
+		Lat:  lat,
+		Lng:  lng,
+	}
+
+	a.Location = location
 }
