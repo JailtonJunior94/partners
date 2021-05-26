@@ -5,7 +5,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/jailtonjunior94/go-challenge/partner/domain/entities"
 	"github.com/jailtonjunior94/go-challenge/partner/domain/mappings"
@@ -30,8 +29,7 @@ func (r *mutationResolver) CreatePartner(ctx context.Context, input model.NewPar
 		return nil, err
 	}
 
-	var response = mappings.ToPartnerResponse(partner)
-	return response, nil
+	return mappings.ToPartnerResponse(partner), nil
 }
 
 func (r *queryResolver) Partners(ctx context.Context) ([]*model.Partner, error) {
@@ -44,12 +42,20 @@ func (r *queryResolver) Partners(ctx context.Context) ([]*model.Partner, error) 
 		return make([]*model.Partner, 0), nil
 	}
 
-	var response = mappings.ToManyPartnerResponse(partners)
-	return response, nil
+	return mappings.ToManyPartnerResponse(partners), nil
 }
 
 func (r *queryResolver) Partner(ctx context.Context, id string) (*model.Partner, error) {
-	panic(fmt.Errorf("not implemented"))
+	partner, err := r.PartnerRepository.GetById(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if partner == nil {
+		return nil, nil
+	}
+
+	return mappings.ToPartnerResponse(partner), nil
 }
 
 // Mutation returns generated.MutationResolver implementation.

@@ -8,11 +8,13 @@ import (
 	"github.com/jailtonjunior94/go-challenge/partner/infrastructure/environments"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type IPartnerRepository interface {
 	Add(p *entities.Partner) (partner *entities.Partner, err error)
 	Get() (partners []*entities.Partner, err error)
+	GetById(id string) (partner *entities.Partner, err error)
 }
 
 type PartnerRepository struct {
@@ -53,4 +55,22 @@ func (r *PartnerRepository) Get() (partners []*entities.Partner, err error) {
 	}
 
 	return partners, nil
+}
+
+func (r *PartnerRepository) GetById(id string) (partner *entities.Partner, err error) {
+	collection, err := r.Client.GetCollection(environments.Database, environments.Collection)
+	if err != nil {
+		return nil, err
+	}
+
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := collection.FindOne(context.Background(), bson.M{"_id": objectID}).Decode(&partner); err != nil {
+		return nil, nil
+	}
+
+	return partner, nil
 }
