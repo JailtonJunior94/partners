@@ -70,8 +70,9 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Partner  func(childComplexity int, id string) int
-		Partners func(childComplexity int) int
+		Partner           func(childComplexity int, id string) int
+		PartnerByDistance func(childComplexity int, cep string, distance int) int
+		Partners          func(childComplexity int) int
 	}
 }
 
@@ -81,6 +82,7 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Partners(ctx context.Context) ([]*model.Partner, error)
 	Partner(ctx context.Context, id string) (*model.Partner, error)
+	PartnerByDistance(ctx context.Context, cep string, distance int) ([]*model.Partner, error)
 }
 
 type executableSchema struct {
@@ -220,6 +222,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Partner(childComplexity, args["id"].(string)), true
 
+	case "Query.partnerByDistance":
+		if e.complexity.Query.PartnerByDistance == nil {
+			break
+		}
+
+		args, err := ec.field_Query_partnerByDistance_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.PartnerByDistance(childComplexity, args["cep"].(string), args["distance"].(int)), true
+
 	case "Query.partners":
 		if e.complexity.Query.Partners == nil {
 			break
@@ -321,6 +335,7 @@ type Location {
 type Query {
   partners: [Partner]
   partner(id: ID!): Partner
+  partnerByDistance(cep: String! distance: Int!): [Partner]
 }
 
 input NewPartner {
@@ -367,6 +382,30 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_partnerByDistance_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["cep"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cep"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["cep"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["distance"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("distance"))
+		arg1, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["distance"] = arg1
 	return args, nil
 }
 
@@ -1024,6 +1063,45 @@ func (ec *executionContext) _Query_partner(ctx context.Context, field graphql.Co
 	res := resTmp.(*model.Partner)
 	fc.Result = res
 	return ec.marshalOPartner2ᚖgithubᚗcomᚋjailtonjunior94ᚋgoᚑchallengeᚋpartnerᚋgraphᚋmodelᚐPartner(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_partnerByDistance(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_partnerByDistance_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().PartnerByDistance(rctx, args["cep"].(string), args["distance"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Partner)
+	fc.Result = res
+	return ec.marshalOPartner2ᚕᚖgithubᚗcomᚋjailtonjunior94ᚋgoᚑchallengeᚋpartnerᚋgraphᚋmodelᚐPartner(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2440,6 +2518,17 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				res = ec._Query_partner(ctx, field)
 				return res
 			})
+		case "partnerByDistance":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_partnerByDistance(ctx, field)
+				return res
+			})
 		case "__type":
 			out.Values[i] = ec._Query___type(ctx, field)
 		case "__schema":
@@ -2747,6 +2836,21 @@ func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface
 
 func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
 	res := graphql.MarshalID(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+	}
+	return res
+}
+
+func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
+	res, err := graphql.UnmarshalInt(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
+	res := graphql.MarshalInt(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")

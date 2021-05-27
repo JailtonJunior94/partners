@@ -58,6 +58,25 @@ func (r *queryResolver) Partner(ctx context.Context, id string) (*model.Partner,
 	return mappings.ToPartnerResponse(partner), nil
 }
 
+func (r *queryResolver) PartnerByDistance(ctx context.Context, cep string, distance int) ([]*model.Partner, error) {
+	res, err := r.AddressFacade.Address(cep)
+	if err != nil {
+		return nil, err
+	}
+
+	location := entities.NewLocation(float64(res.Location.Lat), float64(res.Location.Lng))
+	partners, err := r.PartnerRepository.GetByLocation(location, distance)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(partners) == 0 {
+		return make([]*model.Partner, 0), nil
+	}
+
+	return mappings.ToManyPartnerResponse(partners), nil
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 

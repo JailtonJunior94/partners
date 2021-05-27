@@ -5,6 +5,7 @@ resource "azurerm_cosmosdb_account" "go_challenge_account" {
   offer_type                = "Standard"
   kind                      = "MongoDB"
   enable_automatic_failover = true
+  enable_free_tier          = true
 
   capabilities {
     name = "EnableMongo"
@@ -15,6 +16,7 @@ resource "azurerm_cosmosdb_account" "go_challenge_account" {
     max_interval_in_seconds = 400
     max_staleness_prefix    = 200000
   }
+
 
   geo_location {
     location          = var.location

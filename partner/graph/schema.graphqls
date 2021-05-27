@@ -28,6 +28,7 @@ type Location {
 type Query {
   partners: [Partner]
   partner(id: ID!): Partner
+  partnerByDistance(cep: String! distance: Int!): [Partner]
 }
 
 input NewPartner {

@@ -19,8 +19,8 @@ func ToPartnerResponse(e *entities.Partner) *model.Partner {
 			Uf:           e.Address.Uf,
 			Location: &model.Location{
 				Type: e.Address.Location.Type,
-				Lat:  e.Address.Location.Lat,
-				Lng:  e.Address.Location.Lng,
+				Lat:  e.Address.Location.Coordinates[0],
+				Lng:  e.Address.Location.Coordinates[1],
 			},
 		},
 	}
@@ -43,8 +43,8 @@ func ToManyPartnerResponse(partners []*entities.Partner) []*model.Partner {
 				Uf:           p.Address.Uf,
 				Location: &model.Location{
 					Type: p.Address.Location.Type,
-					Lat:  p.Address.Location.Lat,
-					Lng:  p.Address.Location.Lng,
+					Lat:  p.Address.Location.Coordinates[0],
+					Lng:  p.Address.Location.Coordinates[1],
 				},
 			},
 		}

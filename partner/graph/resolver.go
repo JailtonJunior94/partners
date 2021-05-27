@@ -18,6 +18,7 @@ type Resolver struct {
 
 func NewResolver() *Resolver {
 	connection := database.NewConnection()
+	connection.CreateIndex()
 	return &Resolver{
 		MongoConnection:   connection,
 		PartnerRepository: repositories.NewPartnerRepository(connection),
