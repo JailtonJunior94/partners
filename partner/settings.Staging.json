@@ -1,7 +1,0 @@
-{
-    "mongo": {
-        "connectionString": "",
-        "database": "GoChallengeDB",
-        "collection": "Partners"
-    }
-}
