@@ -75,11 +75,11 @@ jobs:
           dns-name-label: api-address-${{ github.run_number }}
           location: East US
 
-      - name: "Deploy to Azure Container Instances (Partner API)"
-        uses: "azure/aci-deploy@v1"
-        with:
-          resource-group: ${{ env.RESOURCE_GROUP }}
-          image: ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
-          name: api-partner
-          dns-name-label: api-partner-${{ github.run_number }}
-          location: East US
+      # - name: "Deploy to Azure Container Instances (Partner API)"
+      #   uses: "azure/aci-deploy@v1"
+      #   with:
+      #     resource-group: ${{ env.RESOURCE_GROUP }}
+      #     image: ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
+      #     name: api-partner
+      #     dns-name-label: api-partner-${{ github.run_number }}
+      #     location: East US
