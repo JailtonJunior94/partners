@@ -1,5 +1,5 @@
 # Go Challenge 
-Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, projeto baseado no desafio do [Zé Delivery](https://github.com/ZXVentures/ze-code-challenges/blob/master/backend_pt.md)
+Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, projeto baseado no desafio do [Zé Delivery](https://github.com/ZXVentures/ze-code-challenges/blob/master/backend_pt.md).
 
 ### Tecnologias Utilizadas
 1. [Golang](https://golang.org/)
@@ -34,11 +34,9 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
    ```
    go get github.com/99designs/gqlgen
    ```
-
    ```
    go run github.com/99designs/gqlgen init
    ```
-
    ```
    go run github.com/99designs/gqlgen generate
    ```
