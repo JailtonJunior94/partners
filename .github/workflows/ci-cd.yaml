@@ -37,7 +37,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:latest
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{github.run_number}}
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
 
       - name: Variable Substitution (Partner API)
         uses: microsoft/variable-substitution@v1
@@ -54,7 +54,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:latest
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{github.run_number}}
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
   CD:
     needs: [CI]
     runs-on: ubuntu-latest
@@ -70,16 +70,16 @@ jobs:
         uses: "azure/aci-deploy@v1"
         with:
           resource-group: ${{ env.RESOURCE_GROUP }}
-          image: ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{github.run_number}}
+          image: ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
           name: api-address
-          dns-name-label: api-address
+          dns-name-label: api-address.eastus.azurecontainer.io
           location: East US
 
       - name: "Deploy to Azure Container Instances (Partner API)"
         uses: "azure/aci-deploy@v1"
         with:
           resource-group: ${{ env.RESOURCE_GROUP }}
-          image: ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{github.run_number}}
+          image: ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
           name: api-partner
-          dns-name-label: api-partner
+          dns-name-label: api-partner.eastus.azurecontainer.io
           location: East US
