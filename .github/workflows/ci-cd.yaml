@@ -72,7 +72,7 @@ jobs:
           resource-group: ${{ env.RESOURCE_GROUP }}
           image: ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
           name: api-address
-          dns-name-label: api-address
+          dns-name-label: api-address-${{ github.run_number }}
           location: East US
 
       - name: "Deploy to Azure Container Instances (Partner API)"
@@ -81,5 +81,5 @@ jobs:
           resource-group: ${{ env.RESOURCE_GROUP }}
           image: ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
           name: api-partner
-          dns-name-label: api-partner
+          dns-name-label: api-partner-${{ github.run_number }}
           location: East US
