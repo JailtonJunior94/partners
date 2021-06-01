@@ -66,7 +66,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: "Deploy to Azure Container Instances (Address API)"
+      - name: "Deploy to ACI (Address API)"
         uses: "azure/aci-deploy@v1"
         with:
           resource-group: ${{ env.RESOURCE_GROUP }}
