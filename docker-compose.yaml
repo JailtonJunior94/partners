@@ -1,0 +1,49 @@
+version: "3.8"
+services: 
+  address:
+    container_name: address-api
+    build: 
+      context: .
+      dockerfile: address/Dockerfile
+    image: address-api
+    restart: always
+    environment:
+      - ENVIRONMENT=Staging
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mongodb
+    networks:
+      - partner_net
+
+  partner:
+    container_name: partner-api
+    build: 
+      context: .
+      dockerfile: partner/Dockerfile
+    image: partner-api
+    restart: always
+    environment:
+      - ENVIRONMENT=Staging
+    ports:
+      - "8000:8000"
+    depends_on:
+      - address
+      - mongodb
+    networks:
+      - partner_net
+
+  mongodb:
+    container_name: bank-db
+    image: mongo
+    restart: always
+    volumes:
+      - ./.docker/data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - partner_net
+
+networks:
+  partner_net:
+    driver: bridge
