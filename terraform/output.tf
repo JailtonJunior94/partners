@@ -1,15 +1,7 @@
-output "api_address_ip_address" {
-  value = "${azurerm_container_group.api_address_aci.ip_address}"
+output "client_certificate" {
+  value = azurerm_kubernetes_cluster.partner_aks.kube_config.0.client_certificate
 }
 
-output "api_address_fqdn" {
-  value = "${azurerm_container_group.api_address_aci.fqdn}"
-}
-
-output "api_partner_ip_address" {
-  value = "${azurerm_container_group.api_partner_aci.ip_address}"
-}
-
-output "api_partner_fqdn" {
-  value = "${azurerm_container_group.api_partner_aci.fqdn}"
+output "kube_config" {
+  value = nonsensitive(azurerm_kubernetes_cluster.partner_aks.kube_config_raw)
 }
