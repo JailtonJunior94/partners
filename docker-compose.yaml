@@ -15,6 +15,8 @@ services:
       - mongodb
     networks:
       - partner_net
+    extra_hosts: 
+    - "host.docker.internal:192.168.0.119"
 
   partner:
     container_name: partner-api
@@ -24,7 +26,7 @@ services:
     image: partner-api
     restart: always
     environment:
-      - ENVIRONMENT=Staging
+      - ENVIRONMENT=Development
     ports:
       - "8000:8000"
     depends_on:
@@ -32,6 +34,8 @@ services:
       - mongodb
     networks:
       - partner_net
+    extra_hosts: 
+      - "host.docker.internal:192.168.0.119"
 
   mongodb:
     container_name: bank-db
@@ -43,6 +47,8 @@ services:
       - "27017:27017"
     networks:
       - partner_net
+    extra_hosts: 
+      - "host.docker.internal:192.168.0.119"
 
 networks:
   partner_net:

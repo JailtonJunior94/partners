@@ -55,25 +55,25 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:latest
             ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
-  CD:
-    needs: [CI]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  # CD:
+  #   needs: [CI]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: "Login via Azure CLI"
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - name: "Login via Azure CLI"
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: "Deploy to ACI (Address API)"
-        uses: "azure/aci-deploy@v1"
-        with:
-          resource-group: ${{ env.RESOURCE_GROUP }}
-          image: ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
-          name: api-address-${{ github.run_number }}
-          dns-name-label: api-address-${{ github.run_number }}
-          location: East US
+  #     - name: "Deploy to ACI (Address API)"
+  #       uses: "azure/aci-deploy@v1"
+  #       with:
+  #         resource-group: ${{ env.RESOURCE_GROUP }}
+  #         image: ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
+  #         name: api-address-${{ github.run_number }}
+  #         dns-name-label: api-address-${{ github.run_number }}
+  #         location: East US
 
       # - name: "Deploy to Azure Container Instances (Partner API)"
       #   uses: "azure/aci-deploy@v1"

@@ -1,10 +1,10 @@
 {
     "mongo": {
-        "connectionString": "mongodb://localhost:27017",
+        "connectionString": "mongodb://mongodb:27017",
         "database": "GoChallengeDB",
         "collection": "Partners"
     },
     "address": {
-        "baseURL": "localhost:9000"
+        "baseURL": "address:9000"
     }
 }
