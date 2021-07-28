@@ -1,4 +1,5 @@
 # Local .terraform directories
+.docker
 .terraform
 terraform/.terraform.lock.hcl
 
