@@ -28,6 +28,8 @@ resource "azurerm_cosmosdb_mongo_database" "partners_db" {
   resource_group_name = azurerm_cosmosdb_account.partners_account.resource_group_name
   account_name        = azurerm_cosmosdb_account.partners_account.name
   throughput          = 400
+
+  depends_on = [azurerm_cosmosdb_account.partners_account]
 }
 
 resource "azurerm_cosmosdb_mongo_collection" "partners_partner" {
