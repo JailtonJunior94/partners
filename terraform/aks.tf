@@ -11,6 +11,11 @@ resource "azurerm_kubernetes_cluster" "partner_aks" {
     vm_size    = "Standard_B2s"
   }
 
+  network_profile {
+    network_plugin    = "kubenet"
+    load_balancer_sku = "Standard"
+  }
+
   identity {
     type = "SystemAssigned"
   }

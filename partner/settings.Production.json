@@ -1,10 +1,10 @@
 {
     "mongo": {
         "connectionString": "",
-        "database": "GoChallengeDB",
+        "database": "PartnerDB",
         "collection": "Partners"
     },
     "address": {
-        "baseURL": "api-address.eastus.azurecontainer.io:9000"
+        "baseURL": ""
     }
 }

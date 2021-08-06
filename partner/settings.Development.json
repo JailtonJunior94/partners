@@ -1,7 +1,7 @@
 {
     "mongo": {
-        "connectionString": "mongodb://mongodb:27017",
-        "database": "GoChallengeDB",
+        "connectionString": "",
+        "database": "PartnerDB",
         "collection": "Partners"
     },
     "address": {

@@ -25,7 +25,7 @@ resource "azurerm_cosmosdb_account" "partners_account" {
 
 resource "azurerm_cosmosdb_mongo_database" "partners_db" {
   name                = "PartnerDB"
-  resource_group_name = azurerm_cosmosdb_account.partners_account.resource_group_name
+  resource_group_name = azurerm_resource_group.partners_rg.name
   account_name        = azurerm_cosmosdb_account.partners_account.name
   throughput          = 400
 
@@ -34,7 +34,7 @@ resource "azurerm_cosmosdb_mongo_database" "partners_db" {
 
 resource "azurerm_cosmosdb_mongo_collection" "partners_partner" {
   name                = "Partners"
-  resource_group_name = azurerm_cosmosdb_account.partners_account.resource_group_name
+  resource_group_name = azurerm_resource_group.partners_rg.name
   account_name        = azurerm_cosmosdb_account.partners_account.name
   database_name       = azurerm_cosmosdb_mongo_database.partners_db.name
 

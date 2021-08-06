@@ -7,8 +7,6 @@ services:
       dockerfile: address/Dockerfile
     image: address-api
     restart: always
-    environment:
-      - ENVIRONMENT=Staging
     ports:
       - "9000:9000"
     depends_on:
