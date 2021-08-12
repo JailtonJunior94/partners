@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: partner-api
+  name: partner-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: partner-api
+  template:
+    metadata:
+      labels:
+        app: partner-api
+    spec:
+      containers:
+        - name: partner-api
+          image: partnersregistry.azurecr.io/partner:latest
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+            requests:
+              cpu: "100m"
+          env:
+            - name: ENVIRONMENT
+              value: Production
+          ports:
+            - containerPort: 8000

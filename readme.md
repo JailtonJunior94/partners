@@ -7,10 +7,10 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
 3. [GraphQL](https://graphql.org/)
 4. [Microsoft Azure](https://azure.microsoft.com/pt-br/features/azure-portal/)
 5. [Azure Cosmos DB](https://azure.microsoft.com/pt-br/services/cosmos-db/)
-6. [Container Instances](https://azure.microsoft.com/pt-br/services/container-instances/)
-7. [Github Actions](https://docs.github.com/pt/actions)
-8. [Docker](https://www.docker.com/)
-9. [Docker Hub](https://hub.docker.com/)
+6. [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/)
+7. [Azure Kubernetes Service](https://azure.microsoft.com/pt-br/services/kubernetes-service/)
+8. [Github Actions](https://docs.github.com/pt/actions)
+9. [Docker](https://www.docker.com/)
 10. [Terraform](https://www.terraform.io/)
 
 ### Desenho da Solução
@@ -22,7 +22,7 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
 1. Criar um parceiro
 2. Parceiros
 3. Parceiros por ID
-4. Parceiros por localização
+4. Parceiros por localização (distância por kilômetro)
 
 ## Executando local com docker
 1. Executar o seguinte comando.
@@ -60,6 +60,29 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
 2. Obtendo credenciais do cluster AKS 
    ```
    az aks get-credentials --resource-group $RESOURCE_GROUP --name $NAME
+   ```
+3. Build da imagem docker
+   ```
+   docker image build -t partnersregistry.azurecr.io/address:latest -f address/Dockerfile .
+
+   docker image build -t partnersregistry.azurecr.io/partner:latest -f partner/Dockerfile .
+   ```
+4. Autenticação no ACR
+   ```
+   docker login partnersregistry.azurecr.io -u $USERNAME -p $PASSWORD
+   ```
+5. Upload da imagem no ACR
+   ```
+   docker image push partnersregistry.azurecr.io/address:latest
+
+   docker image push partnersregistry.azurecr.io/partner:latest
+   ```
+## Kubernetes
+1. Aplicar os manifestos do k8s
+   ```
+   kubectl apply -f .\.k8s\namespaces\ -R
+   kubectl apply -f .\.k8s\deployments\ -R -n partner
+   kubectl apply -f .\.k8s\services\ -R -n partner
    ```
 
 ## gRPC e GraphQL   

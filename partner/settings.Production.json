@@ -1,10 +1,10 @@
 {
     "mongo": {
-        "connectionString": "",
+        "connectionString": "mongodb://partners-account:FCdu2Z24feNmC8VuDzwpcHfu7lirVSgi2VLdbbzKy0j8PYkTJKu1FxX5eF7Ti6iTMzkBDLM5Q99b7YJNuLg4SA==@partners-account.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@partners-account@",
         "database": "PartnerDB",
         "collection": "Partners"
     },
     "address": {
-        "baseURL": ""
+        "baseURL": "address-api-service:9000"
     }
 }
