@@ -23,7 +23,45 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
 2. Parceiros
 3. Parceiros por ID
 4. Parceiros por localização
+
+## Executando local com docker
+1. Executar o seguinte comando.
+   ```
+   docker-compose up -d --build
+   ```
    
+## Infra as code (terraform)
+1. Iniciando o terraform. na pasta terraform executar:
+   ```
+   terraform init
+   ```
+2. Aplicar a formatação
+   ```
+   terraform fmt
+   ```
+3. Validação do que foi criado
+   ```
+   terraform validate
+   ```
+4. Aplicar o plano (planejamento dos recursos que serão criados)
+   ```
+   terraform plan
+   ```
+5. Executar a criação da infra
+   ```
+   terraform apply -auto-approve
+   ```
+
+## Microsoft Azure
+1. Autenticação no azure (Precisamos instalar o ([Azure CLI](https://docs.microsoft.com/pt-br/cli/azure/install-azure-cli))
+   ```
+   az login
+   ```
+2. Obtendo credenciais do cluster AKS 
+   ```
+   az aks get-credentials --resource-group $RESOURCE_GROUP --name $NAME
+   ```
+
 ## gRPC e GraphQL   
 1. gRPC
     ```

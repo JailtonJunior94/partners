@@ -1,6 +1,6 @@
 {
     "mongo": {
-        "connectionString": "",
+        "connectionString": "mongodb://mongodb:27017",
         "database": "PartnerDB",
         "collection": "Partners"
     },

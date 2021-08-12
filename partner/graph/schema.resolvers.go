@@ -65,7 +65,7 @@ func (r *queryResolver) PartnerByDistance(ctx context.Context, cep string, dista
 	}
 
 	location := entities.NewLocation(float64(res.Location.Lat), float64(res.Location.Lng))
-	partners, err := r.PartnerRepository.GetByLocation(location, distance)
+	partners, err := r.PartnerRepository.GetByLocation(location, distance*1000)
 	if err != nil {
 		return nil, err
 	}

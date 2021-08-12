@@ -1,7 +1,15 @@
-output "client_certificate" {
-  value = azurerm_kubernetes_cluster.partner_aks.kube_config.0.client_certificate
+output "acr_url" {
+  value = azurerm_container_registry.partner-acr.login_server
 }
 
-output "kube_config" {
-  value = nonsensitive(azurerm_kubernetes_cluster.partner_aks.kube_config_raw)
+output "acr_username" {
+  value = azurerm_container_registry.partner-acr.admin_username
+}
+
+output "acr_password" {
+  value = nonsensitive(azurerm_container_registry.partner-acr.admin_password)
+}
+
+output "cosmosdb_connectionstrings" {
+  value = nonsensitive(azurerm_cosmosdb_account.partners_account.connection_strings)
 }

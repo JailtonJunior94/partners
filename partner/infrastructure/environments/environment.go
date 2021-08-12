@@ -19,7 +19,7 @@ func NewSetupEnvironments() {
 	var err error
 
 	viper.SetConfigName(fmt.Sprintf("settings.%s", os.Getenv("ENVIRONMENT")))
-	viper.SetConfigType("yaml")
+	viper.SetConfigType("json")
 	viper.AddConfigPath(".")
 
 	err = viper.ReadInConfig()
