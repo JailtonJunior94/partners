@@ -105,8 +105,20 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
    ```
    kubectl get ingress
    ```
+3. Utilizando url Microsoft Azure [(Ingress-tls)](https://docs.microsoft.com/pt-br/azure/aks/ingress-tls)
+   ```
+   $IP="MY_EXTERNAL_IP"
 
-3. Verificar o quanto de memória o pod está utilizando
+   $DNSNAME="demo-aks-ingress"
+
+   $PUBLICIPID=$(az network public-ip list --query '[?ipAddress!=null]|[?contains(ipAddress, '$IP')].[id]" --output tsv)
+
+   az network public-ip update --ids $PUBLICIPID --dns-name $DNSNAME
+
+   az network public-ip show --ids $PUBLICIPID --query "[dnsSettings.fqdn]" --output tsv
+   ```
+
+4. Verificar o quanto de memória o pod está utilizando
    ```
    kubectl top pods
    ```
