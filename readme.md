@@ -51,6 +51,10 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
    ```
    terraform apply -auto-approve
    ```
+6. Executar a remoção da infra
+   ```
+   terraform destroy -auto-approve
+   ```
 
 ## Microsoft Azure
 1. Autenticação no azure (Precisamos instalar o ([Azure CLI](https://docs.microsoft.com/pt-br/cli/azure/install-azure-cli))
@@ -83,6 +87,28 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
    kubectl apply -f .\.k8s\namespaces\ -R
    kubectl apply -f .\.k8s\deployments\ -R -n partner
    kubectl apply -f .\.k8s\services\ -R -n partner
+   ```
+2. Ingress Controller
+   Acessar o site nginx 
+   ```
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
+   ```
+   Verificar o service nginx
+   ```
+   kubectl get services -n ingress-nginx
+   ```
+   Aplicar o ingress
+   ```
+   kubectl apply -f .\.k8s\ingress\ -R -n partner
+   ```
+   Verificar o ingress
+   ```
+   kubectl get ingress
+   ```
+
+3. Verificar o quanto de memória o pod está utilizando
+   ```
+   kubectl top pods
    ```
 
 ## gRPC e GraphQL   

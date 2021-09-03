@@ -6,6 +6,6 @@ spec:
   selector:
     app: partner-api
   ports:
-    - port: 8000
+    - port: 80
       targetPort: 8000
-  type: LoadBalancer
+  type: ClusterIP
