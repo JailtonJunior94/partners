@@ -5,6 +5,6 @@
         "collection": "Partners"
     },
     "address": {
-        "baseURL": "address-api-service:9000"
+        "baseURL": "address-api-service:80"
     }
 }
