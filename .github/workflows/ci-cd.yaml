@@ -8,7 +8,7 @@ on:
 env:
   ADDRESS_API: address-api
   PARTNER_API: partner-api
-  RESOURCE_GROUP: go-challenge-rg
+  K8S_NAMESPACE: partner
 
 jobs:
   CI:
@@ -26,8 +26,9 @@ jobs:
       - name: Docker Login
         uses: docker/login-action@v1.9.0
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          login-server: ${{ secrets.ACR_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Build and push (Address API)
         uses: docker/build-push-action@v2.4.0
@@ -36,8 +37,8 @@ jobs:
           file: address/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:latest
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
+            ${{ secrets.ACR_SERVER }}/${{ env.ADDRESS_API }}:latest
+            ${{ secrets.ACR_SERVER }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
 
       - name: Variable Substitution (Partner API)
         uses: microsoft/variable-substitution@v1
@@ -53,8 +54,9 @@ jobs:
           file: partner/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:latest
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
+            ${{ secrets.ACR_SERVER }}/${{ env.PARTNER_API }}:latest
+            ${{ secrets.ACR_SERVER }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
+
   # CD:
   #   needs: [CI]
   #   runs-on: ubuntu-latest
@@ -70,7 +72,7 @@ jobs:
   #       uses: "azure/aci-deploy@v1"
   #       with:
   #         resource-group: ${{ env.RESOURCE_GROUP }}
-  #         image: ${{ secrets.DOCKER_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
+  #         image: ${{ secrets.ACR_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
   #         name: api-address-${{ github.run_number }}
   #         dns-name-label: api-address-${{ github.run_number }}
   #         location: East US
@@ -79,7 +81,7 @@ jobs:
       #   uses: "azure/aci-deploy@v1"
       #   with:
       #     resource-group: ${{ env.RESOURCE_GROUP }}
-      #     image: ${{ secrets.DOCKER_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
+      #     image: ${{ secrets.ACR_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
       #     name: api-partner
       #     dns-name-label: api-partner-${{ github.run_number }}
       #     location: East US
