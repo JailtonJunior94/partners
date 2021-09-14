@@ -57,31 +57,38 @@ jobs:
             ${{ secrets.ACR_SERVER }}/${{ env.PARTNER_API }}:latest
             ${{ secrets.ACR_SERVER }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
 
-  # CD:
-  #   needs: [CI]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
+  CD:
+    needs: [CI]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: "Login via Azure CLI"
-  #       uses: azure/login@v1
-  #       with:
-  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Kubernetes set context
+        uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{secrets.K8S_CONFIG}}
 
-  #     - name: "Deploy to ACI (Address API)"
-  #       uses: "azure/aci-deploy@v1"
-  #       with:
-  #         resource-group: ${{ env.RESOURCE_GROUP }}
-  #         image: ${{ secrets.ACR_USERNAME }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
-  #         name: api-address-${{ github.run_number }}
-  #         dns-name-label: api-address-${{ github.run_number }}
-  #         location: East US
+      - name: Deploy Namespace
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          manifests: |
+            .k8s/namespaces/partner-ns.yaml        
 
-      # - name: "Deploy to Azure Container Instances (Partner API)"
-      #   uses: "azure/aci-deploy@v1"
-      #   with:
-      #     resource-group: ${{ env.RESOURCE_GROUP }}
-      #     image: ${{ secrets.ACR_USERNAME }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
-      #     name: api-partner
-      #     dns-name-label: api-partner-${{ github.run_number }}
-      #     location: East US
+      - name: Deploy Address API
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          images: ${{ secrets.ACR_SERVER }}/${{ env.ADDRESS_API }}:v${{ github.run_number }}
+          manifests: |
+            .k8s/deployments/address-api-dp.yaml
+            .k8s/services/address-api-svc.yaml
+
+      - name: Deploy Partner API
+        uses: Azure/k8s-deploy@v1.3
+        with:
+          namespace: ${{ env.K8S_NAMESPACE }}
+          images: ${{ secrets.ACR_SERVER }}/${{ env.PARTNER_API }}:v${{ github.run_number }}
+          manifests: |
+            .k8s/deployments/partner-api-dp.yaml
+            .k8s/services/partner-api-svc.yaml

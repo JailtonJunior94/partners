@@ -16,11 +16,7 @@ spec:
     spec:
       containers:
         - name: address-api
-          image: partnersregistry.azurecr.io/address:latest
-          # livenessProbe:
-          #   httpGet:
-          #     port: 9000
-          #     path: /health
+          image: partnersregistry.azurecr.io/address-api:v53
           resources:
             limits:
               cpu: "200m"
