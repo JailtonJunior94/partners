@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: address-api
-          image: partnersregistry.azurecr.io/address-api:v53
+          image: partnersregistry.azurecr.io/address-api:v56
           resources:
             limits:
               cpu: "200m"

@@ -106,6 +106,13 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
    ```
    kubectl get ingress
    ```
+   Verificando cert manager
+   ```
+   kubectl get clusterissuer -n partner
+   kubectl get certificate -n partner
+   kubectl describe certificate -n partner
+   ```
+
 3. Utilizando url Microsoft Azure [(Ingress-tls)](https://docs.microsoft.com/pt-br/azure/aks/ingress-tls)
    ```
    $IP="MY_EXTERNAL_IP"
