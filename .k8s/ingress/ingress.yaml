@@ -1,26 +1,33 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-apis
+  name: ingress-hosts
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
+  # tls:
+  #   - hosts:
+  #       - financeiro.jailtonjunior.site
+  #     secretName: financial-api-tls
   rules:
-    - host: address.jailtonjunior.com.br
+    - host: address.jailtonjunior.site
       http:
         paths:
           - pathType: Prefix
             path: /
             backend:
               service:
-                name: address-api
+                name: address-api-service
                 port:
                   number: 80
-    - host: partners.jailtonjunior.com.br
+    - host: partners.jailtonjunior.site
       http:
         paths:
           - pathType: Prefix
             path: /
             backend:
               service:
-                name: partner-api
+                name: partner-api-service
                 port:
                   number: 80

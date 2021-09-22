@@ -87,6 +87,7 @@ Solução de cadastro de parceiros com integração ViaCep e Google GeoCode, pro
    kubectl apply -f .\.k8s\namespaces\ -R
    kubectl apply -f .\.k8s\deployments\ -R -n partner
    kubectl apply -f .\.k8s\services\ -R -n partner
+   kubectl apply -f .\.k8s\ingress\ -R -n partner
    ```
 2. Ingress Controller
    Acessar o site nginx 
