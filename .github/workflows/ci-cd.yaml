@@ -14,7 +14,18 @@ jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Run tests
+        run: go test ./address/... ./partner/... ./proto/...
+
+      - name: Run vet
+        run: go vet ./address/... ./partner/... ./proto/...
 
       - name: Variable Substitution (Address API)
         uses: microsoft/variable-substitution@v1
@@ -31,7 +42,7 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Build and push (Address API)
-        uses: docker/build-push-action@v2.4.0
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: address/Dockerfile
@@ -48,7 +59,7 @@ jobs:
           mongo.connectionString: ${{ secrets.COSMOS_CONNECTION }}
 
       - name: Build and push (Partner API)
-        uses: docker/build-push-action@v2.4.0
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: partner/Dockerfile
@@ -61,7 +72,7 @@ jobs:
     needs: [CI]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Kubernetes set context
         uses: Azure/k8s-set-context@v1
